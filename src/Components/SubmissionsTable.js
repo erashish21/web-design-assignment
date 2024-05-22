@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./SubmissionsTable.css";
 
 const SubmissionsTable = ({ submissions }) => {
-  const [filteredSubmissions, setFilteredSubmissions] = useState(submissions);
+  const [filteredSubmissions, setFilteredSubmissions] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedSubmissions, setSelectedSubmissions] = useState([]);
   const [newSubmission, setNewSubmission] = useState({
@@ -14,6 +14,14 @@ const SubmissionsTable = ({ submissions }) => {
     restaurantCleanliness: "",
     overallExperience: "",
   });
+
+  // Initialize filteredSubmissions when submissions prop changes
+  useEffect(() => {
+    if (submissions) {
+      console.log("Submissions:", submissions);
+      setFilteredSubmissions(submissions);
+    }
+  }, [submissions]);
 
   // Function to handle search
   const handleSearch = (event) => {
@@ -42,9 +50,13 @@ const SubmissionsTable = ({ submissions }) => {
   };
 
   // Function to add new submission
+  // Function to add new submission
   const handleAddSubmission = () => {
-    const updatedSubmissions = [...submissions, newSubmission];
+    // Add the new submission to the filtered submissions
+    const updatedSubmissions = [...filteredSubmissions, newSubmission];
+    // Update the filtered submissions state
     setFilteredSubmissions(updatedSubmissions);
+    // Clear the new submission form
     setNewSubmission({
       name: "",
       email: "",

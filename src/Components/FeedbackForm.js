@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import "./FeedbackForm.css";
+import SubmissionsTable from './SubmissionsTable';
 
-const FeedbackForm = ({ addSubmission }) => {
+const FeedbackForm = () => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -14,8 +15,9 @@ const FeedbackForm = ({ addSubmission }) => {
   });
 
   const [errors, setErrors] = useState({});
- 
-
+ const [submitted, setSubmitted] = useState(false);
+  const [showTable, setShowTable] = useState(false);
+  const [submissions, setSubmissions] = useState([]);
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormData((prevData) => ({
@@ -41,31 +43,42 @@ const FeedbackForm = ({ addSubmission }) => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    if (validate()) {
-      addSubmission(formData);
-      
-      setFormData({
-        name: "",
-        email: "",
-        phone: "",
-        countryCode: "+1",
-        serviceQuality: "",
-        beverageQuality: "",
-        restaurantCleanliness: "",
-        overallExperience: "",
-      });
-      setErrors({});
-      window.alert("Thank you for providing the feedback!");
-    }
-  };
+   const handleSubmit = (event) => {
+     event.preventDefault();
+     if (validate()) {
+       const newSubmission = { ...formData };
+       setSubmissions((prevSubmissions) => [...prevSubmissions, newSubmission]);
 
+       // Save form data to localStorage
+       localStorage.setItem("submissions", JSON.stringify(submissions));
+
+       // Reset form data
+       setFormData({
+         name: "",
+         email: "",
+         phone: "",
+         countryCode: "+1",
+         serviceQuality: "",
+         beverageQuality: "",
+         restaurantCleanliness: "",
+         overallExperience: "",
+       });
+
+       // Set submitted state to true
+       setSubmitted(true);
+     }
+   };
+const handleClose = () => {
+  setShowTable(true);
+};
   
 
   return (
     <div className="container">
-      <div className="form-wrapper">
+      {showTable ? (
+        <SubmissionsTable submissions={submissions} />
+      ) : (
+        <div className="form-wrapper">
           <>
             <p className="header">Aromatic bar</p>
             <form onSubmit={handleSubmit}>
@@ -312,8 +325,17 @@ const FeedbackForm = ({ addSubmission }) => {
                 Submit Review
               </button>
             </form>
+            {submitted && (
+              <div className="success-message">
+                <p>Thank you for completing the information</p>
+                <button onClick={handleClose} className="close-button">
+                  Close
+                </button>
+              </div>
+            )}
           </>
-      </div>
+        </div>
+      )}
     </div>
   );
 };
