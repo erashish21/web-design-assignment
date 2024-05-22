@@ -1,37 +1,46 @@
 .container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  background-color: #f9f9f9;
-  
-}
-
-h2 {
-  text-align: center;
-  color: #333;
+  margin: 20px auto;
+  width: 80%;
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 20px;
+  margin: 0 auto; /* Center-align the table */
 }
 
-th, td {
-  border: 1px solid #ccc;
-  padding: 10px;
-  text-align: left;
+th,
+td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center; /* Center-align content */
 }
 
 th {
-  background-color: #007bff;
-  color: white;
-  position: sticky;
-  top: 0;
+  background-color: #f2f2f2;
 }
 
-tr:nth-child(even) {
-  background-color: #f2f2f2;
+.controls {
+  margin-bottom: 10px;
+}
+
+.controls input[type="text"] {
+  margin-right: 10px;
+}
+
+.controls button {
+  margin-right: 10px;
+  padding: 5px 10px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.controls button:hover {
+  background-color: #45a049;
+}
+
+.controls span {
+  margin-left: 10px;
 }
